@@ -60,8 +60,18 @@ void Prime_Generator::Print_Prime_Numbers()
 
 
 void main() {
-	Prime_Generator obj(1, 100);
-	obj.Print_Prime_Numbers();
+	int test_cases = -1;
+	while (test_cases < 0) {
+		cout << "enter tests count(>0): ";
+		cin >> test_cases;
+	}
+	for (int i = 0; i < test_cases; i++) {
+		int m, n;
+		cout << "Enter M and N to generate prime numbers: ";
+		cin >> m >> n;
+		Prime_Generator obj(m, n);
+		obj.Print_Prime_Numbers();
+	}
 
 
 }
