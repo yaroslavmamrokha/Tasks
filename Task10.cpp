@@ -65,6 +65,64 @@ void Tetrahedron_Pyramid::Calculate_Volume()
 
 
 void main(){
-	Tetrahedron_Pyramid obj(Tetrahedron_Pyramid_Edges{ 1,1,1,1,1,1 });
-	cout << obj<<endl;
+	int test_cases;
+	cout << "Enter test count: ";
+	cin >> test_cases;
+	while (test_cases > 1000 || test_cases < 0) {
+		system ("cls");
+		cout << "bad input!\n";
+		cout << "Enter test count: ";
+		cin >> test_cases;
+	}
+	for (int i = 0; i < test_cases; i++) {
+		Tetrahedron_Pyramid_Edges ed;
+		cout << "Enter edges: \n";
+		cout << "AB: ";
+		cin >> ed.AB;
+		if (ed.AB > 1000 || ed.AB < 0) {
+			cout << "bad input!\n";
+			i--;
+			continue;
+		}
+		cout << "AC: ";
+		cin >> ed.AC;
+		if (ed.AC > 1000 || ed.AC < 0) {
+			cout << "bad input!\n";
+			i--;
+			continue;
+		}
+		cout << "AD: ";
+		cin >> ed.AD;
+		if (ed.AD > 1000 || ed.AD < 0) {
+			cout << "bad input!\n";
+			i--;
+			continue;
+		}
+				
+		cout << "BC: ";
+		cin >> ed.BC;
+		if (ed.BC > 1000 || ed.BC < 0) {
+			cout << "bad input!\n";
+			i--;
+			continue;
+		}
+		cout << "BD: ";
+		cin >> ed.BD;
+		if (ed.BD > 1000 || ed.BD < 0) {
+			cout << "bad input!\n";
+			i--;
+			continue;
+		}
+
+		cout << "CD: ";
+		cin >> ed.CD;
+		if (ed.CD > 1000 || ed.CD < 0) {
+			cout << "bad input!\n";
+			i--;
+			continue;
+		}
+		
+		Tetrahedron_Pyramid obj{ ed };
+		cout << obj << endl;
+	}
 }
