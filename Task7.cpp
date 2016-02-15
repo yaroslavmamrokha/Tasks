@@ -5,10 +5,31 @@
 #include <time.h>
 using namespace std;
 enum Guesser {
-	max_number = 100,
-	min_number = 0
-
+	bad_num = -1,
+	min_number,
+	exit_num,
+	max_number = 100
 };
+
+/*
+*@[brief]: Function check if istream object state is set to failbit, shows error and fix input stream;
+*@[in]: istream object needed for fail check;
+*@[out]: bool statement that shows function result, true if failbit enabled and false otherwise;
+*/
+bool isbadinput(istream& in) {
+	if (in.fail()) {
+		cout << "Bad input\n";
+		in.clear();
+		in.ignore();
+		return true;
+	}
+	return false;
+}
+/*
+*@[brief]: Function Launch PC logic for guessing user number;
+*@[in]: No input requiered;
+*@[out]: No return values needed if user is entering incorrect hints, PC will show message and exit program;
+*/
 void Pc_Guesser() {
 	static int previous = Guesser::min_number;
 	static int next = Guesser::max_number;
@@ -21,12 +42,13 @@ void Pc_Guesser() {
 	cout << "3) Correct!\n";
 	
 	cin >> answer;
-
-	if ((next - previous) == 1) {
-		cout << "Hey stop fooling me, i dont want to play!!";
-		exit(1);
+	if (isbadinput(cin)) {
+		answer = Guesser::bad_num;
 	}
-
+	if ((next - previous) == Guesser::exit_num) {
+		cout << "Hey stop fooling me, i dont want to play!!";
+		exit(true);
+	}
 	switch (answer) {
 	case 1:
 		next = current;
@@ -40,9 +62,17 @@ void Pc_Guesser() {
 		cout << "Phew that was eeeeeasy)\n";
 		break;
 	default:
-		cout << "Bad input!\n";
+		system("cls");
+		cout << "Bad input\n";
+		Pc_Guesser();
+		break;
 	}
 }
+/*
+*@[brief]: Function Launch user logic for guessing PC number;
+*@[in]: No input requiered;
+*@[out]: No return values needed;
+*/
 
 void User_Guesser() {
 	srand(time(0));
@@ -58,6 +88,10 @@ void User_Guesser() {
 	do {
 		cout << "Your answer? : ";
 		cin >> user_value;
+		if (isbadinput(cin)) {
+			user_value = Guesser::bad_num;
+			continue;
+		}
 		++tries;
 		if (user_value < pc_value) {
 			cout << "\nWrong number, try greater then " << user_value << "\n";
@@ -87,11 +121,10 @@ void main() {
 		break;
 	case 3:
 		cout << "Exiting...\n";
-		exit(1);
 		break;
 	default:
 		cout << "Bad input\n";
-		exit(1);
+		break;
 	}
 	
 
