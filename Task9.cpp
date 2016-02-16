@@ -1,4 +1,6 @@
 #include <string>
+#include<sstream>
+#include<exception>
 #include <iostream>
 using namespace std;
 
@@ -31,15 +33,47 @@ public:
 	void Convert_To_Polish();
 
 	friend ostream& operator<<(ostream&, const Polish_Converter&);
+	friend istream& operator>>(istream&, Polish_Converter&);
 };
 
+/*
+*@[brief]: friend overloaded output operator;
+*@[in]: ostream object for output and const reference to class object
+*@[out]: ostream reference for chain output
+*/
 ostream& operator<<(ostream& out, const Polish_Converter& obj) { 
 	out << obj.output_string;
 	return out;
 }
 
+/*
+*@[brief]: friend overloaded input operator;
+*@[in]: istream object for input and reference to class object
+*@[out]: istream reference for chain input
+*/
+
+istream & operator>>(istream & in, Polish_Converter & obj)
+{
+	
+	try {
+		getline(in, obj.input_string);
+
+		return in;
+	}
+	catch (exception& ex) {
+		cout << "Whoaa we got exception here, ty another input but restart program first\n Error: " << ex.what();
+		exit(true);
+	}
+}
+
+/*
+*@[brief]: Function convert string expr to RPN form
+*/
 void Polish_Converter::Convert_To_Polish()
 {
+	op_stack.clear();
+	output_string.clear();
+	last_sym = 0;
 	for (auto x : input_string) {
 		if (isspace(x)) {
 			continue;
@@ -117,24 +151,34 @@ void Polish_Converter::Convert_To_Polish()
 	}
 	if (!op_stack.empty()) {
 		string::iterator b = op_stack.end() - 1;
-		for (; b != op_stack.begin()-1; --b) {
+		for (; b != op_stack.begin(); --b) {
 			output_string.push_back(*b);
 		}
+		output_string.push_back(*b);
 		output_string.push_back(SPACE_SYM);
 		op_stack.clear();
 	}
 }
-
+/*
+*@[brief]: Helper function that returns input string
+*@[out]: copy of private member that holds user expr
+*/
 string Polish_Converter::Get_Input_String() const
 {
 	return input_string;
 }
-
+/*
+*@[brief]: Helper function that returns converted expr
+*@[out]: copy of private member that holds RPN expr
+*/
 string Polish_Converter::Get_Output_String() const
 {
 	return output_string;
 }
-
+/*
+*@[brief]: Helper function that sets input string;
+*@[in]: user input string;
+*/
 void Polish_Converter::Set_Input_String(string in)
 {
 	input_string = in;
@@ -145,8 +189,16 @@ void main() {
 	obj.Set_Input_String("((a + b)/(3*2/4^3))");
 	obj.Convert_To_Polish();
 	cout << obj << endl;
-	Polish_Converter * p_obj = new Polish_Converter("1*+b");
+
+	Polish_Converter * p_obj = new Polish_Converter("1 2 + 2");
+
 	p_obj->Convert_To_Polish();
 	cout << *p_obj;
+	delete p_obj;
+	cout << "\n\n\nEnter Expression: ";
+	cin >> obj;
+	//obj.Set_Input_String("((a + b) / (3 * 2 / 4 ^ 3))");
+	obj.Convert_To_Polish();
+	cout << "\n\n" << obj << "\n";
 
 }
