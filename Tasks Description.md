@@ -217,3 +217,11 @@ Input:
 
 Output:
 Sun Jun 13 16:20:39 2004
+
+
+Task 12:
+
+Write a program that asks for txo 3x3 Matrix.Then the porgram sums the matrix and stores the result in the first one(A=A+B).Then prints on the screen the resulting matrix.
+
+PS. Cause task is too easy, also implemented elementary operations on matrix
+TO DO: implement division and multiplication of matrixes
