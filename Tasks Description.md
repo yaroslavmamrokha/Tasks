@@ -228,4 +228,3 @@ PS. Cause task is too easy, also implemented elementary operations on matrix
 Task 13:
 Temperature class implementation
 
-TO DO: finish implementation
